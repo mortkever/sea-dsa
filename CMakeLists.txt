@@ -13,6 +13,7 @@ if (PROJECT_NAME STREQUAL CMAKE_PROJECT_NAME)
 else()
   set (TOP_LEVEL FALSE)
 endif()
+set (TOP_LEVEL TRUE)
 
 
 
