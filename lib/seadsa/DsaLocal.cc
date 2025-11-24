@@ -317,7 +317,7 @@ class GlobalBuilder : public BlockBuilderBase {
 
     if (Init->getType()->isPointerTy() && !isa<ConstantPointerNull>(Init)) {
       if (cast<PointerType>(Init->getType())
-              ->getElementType()
+              ->getNonOpaquePointerElementType()
               ->isFunctionTy()) {
         seadsa::Node &n = m_graph.mkNode();
         seadsa::Cell nc(n, 0);
@@ -889,7 +889,7 @@ std::pair<int64_t, uint64_t> computeGepOffset(Type *ptrTy,
   // divisor
   uint64_t divisor = 0;
 
-  Type *srcElemTy = cast<PointerType>(ptrTy)->getElementType();
+  Type *srcElemTy = cast<PointerType>(ptrTy)->getNonOpaquePointerElementType();
   generic_gep_type_iterator<Value *const *> TI =
       gep_type_begin(srcElemTy, Indicies);
 
@@ -901,7 +901,7 @@ std::pair<int64_t, uint64_t> computeGepOffset(Type *ptrTy,
       Ty = STy->getElementType(fieldNo);
     } else {
       if (PointerType *ptrTy = dyn_cast<PointerType>(Ty))
-        Ty = ptrTy->getElementType();
+        Ty = ptrTy->getNonOpaquePointerElementType();
       else if (Ty->isArrayTy())
         Ty = Ty->getArrayElementType();
       else if (auto vt = dyn_cast<VectorType>(Ty))
@@ -940,7 +940,7 @@ uint64_t computeIndexedOffset(Type *ty, ArrayRef<unsigned> indecies,
       ty = sty->getElementType(idx);
     } else {
       if (PointerType *ptrTy = dyn_cast<PointerType>(ty))
-        ty = ptrTy->getElementType();
+        ty = ptrTy->getNonOpaquePointerElementType();
       else if (ty->isArrayTy())
         ty = ty->getArrayElementType();
       else if (auto vt = dyn_cast<VectorType>(ty))

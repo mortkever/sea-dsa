@@ -54,13 +54,13 @@ option (SEA_DSA_STATIC_EXE "Static executable." OFF)
 
 ## llvm
 if (TOP_LEVEL)
-  find_package (LLVM 14.0 CONFIG)
+  find_package (LLVM 15 CONFIG)
   if (NOT LLVM_FOUND)
     ExternalProject_Get_Property (llvm INSTALL_DIR)
     set (LLVM_ROOT ${INSTALL_DIR})
     set (LLVM_DIR ${LLVM_ROOT}/lib/cmake/llvm CACHE PATH
       "Forced location of LLVM cmake config" FORCE)
-    message (WARNING "No llvm found. Install LLVM 14.")
+    message (WARNING "No llvm found. Install LLVM 15.")
     return()
   endif()
 
@@ -116,7 +116,7 @@ if (TOP_LEVEL)
 endif ()
 
 # sea-dsa specific
-set(CMAKE_CXX_STANDARD 14 CACHE STRING "C++ standard to conform to")
+set(CMAKE_CXX_STANDARD 20 CACHE STRING "C++ standard to conform to")
 set(CMAKE_CXX_STANDARD_REQUIRED YES)
 set(CMAKE_CXX_EXTENSIONS NO)
 

@@ -100,7 +100,7 @@ Value *getUniqueScalar(LLVMContext &ctx, IRBuilder<> &B, const dsa::Cell &c) {
     // -- able to extend this to single-cell local pointers, but these
     // -- are probably not very common.
     if (auto *gv = dyn_cast_or_null<GlobalVariable>(v))
-      if (gv->getType()->getElementType()->isSingleValueType())
+      if (gv->getType()->getNonOpaquePointerElementType()->isSingleValueType())
         return B.CreateBitCast(v, Type::getInt8PtrTy(ctx));
   }
   return ConstantPointerNull::get(Type::getInt8PtrTy(ctx));
