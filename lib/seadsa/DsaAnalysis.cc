@@ -35,7 +35,7 @@ static llvm::cl::opt<seadsa::GlobalAnalysisKind> DsaGlobalAnalysis(
         clEnumValN(GlobalAnalysisKind::CONTEXT_INSENSITIVE, "ci",
                    "Context-insensitive for VC generation"),
         clEnumValN(GlobalAnalysisKind::FLAT_MEMORY, "flat", "Flat memory")),
-    llvm::cl::init(GlobalAnalysisKind::CONTEXT_SENSITIVE));
+    llvm::cl::init(GlobalAnalysisKind::CONTEXT_INSENSITIVE));
 
 namespace seadsa {
 bool PrintDsaStats;
