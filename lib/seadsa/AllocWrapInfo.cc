@@ -175,12 +175,21 @@ bool AllocWrapInfo::findWrappers(Module &M, Pass *P,
       if (isWrapper)
         isWrapper &= isNotStored(CI);
       if (isWrapper) {
+        // the wrapper identification logic ensures that 
+        //  a wrapper can only contain a single embedded alloc
+        //  which must flow to each return site
+        assert(!m_wrapperToAlloc.count(parentFn));
+        m_wrapperToAlloc[parentFn] = CI;
         fn_names.insert(parentFn->getName());
         changed = true;
       }
     }
   }
   return changed;
+}
+
+const llvm::DenseMap<llvm::Function*, llvm::CallBase*>& AllocWrapInfo::getWrapperToAlloc() const {
+  return m_wrapperToAlloc;
 }
 
 /**

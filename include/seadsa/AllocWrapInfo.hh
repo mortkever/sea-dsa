@@ -25,6 +25,7 @@ class AllocWrapInfo : public llvm::ImmutablePass {
 protected:
   mutable std::set<llvm::StringRef> m_allocs;
   mutable std::set<llvm::StringRef> m_deallocs;
+  mutable llvm::DenseMap<llvm::Function*, llvm::CallBase*> m_wrapperToAlloc; 
 
   mutable llvm::TargetLibraryInfoWrapperPass *m_tliWrapper;
 
@@ -52,7 +53,7 @@ public:
   bool isAllocWrapper(llvm::Function &) const;
   bool isDeallocWrapper(llvm::Function &) const;
   const std::set<llvm::StringRef> &getAllocWrapperNames(llvm::Module &) const;
-
+  const llvm::DenseMap<llvm::Function*, llvm::CallBase*>& getWrapperToAlloc() const;
 
   llvm::TargetLibraryInfoWrapperPass &getTLIWrapper() const {
     assert(m_tliWrapper);
